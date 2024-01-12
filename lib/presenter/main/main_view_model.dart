@@ -9,14 +9,14 @@ class MainViewModel extends ChangeNotifier {
   final GetAllNoteUseCase _getAllNoteUseCase;
   final RemoveNoteUseCase _removeNoteUseCase;
 
-  MainState _state = const MainState();
-  MainState get state => _state;
-
   MainViewModel({
     required GetAllNoteUseCase getAllNoteUseCase,
     required RemoveNoteUseCase removeNoteUseCase,
   })  : _getAllNoteUseCase = getAllNoteUseCase,
         _removeNoteUseCase = removeNoteUseCase;
+
+  MainState _state = const MainState();
+  MainState get state => _state;
 
   Future<void> fetchNoteList() async {
     _state = state.copyWith(isLoading: true);

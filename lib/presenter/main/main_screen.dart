@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_note/domain/model/note.dart';
@@ -76,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
             await viewModel.fetchNoteList();
           }
         },
-        child: const Icon(CupertinoIcons.arrow_down_doc),
+        child: const Icon(Icons.post_add_outlined),
       ),
     );
   }
