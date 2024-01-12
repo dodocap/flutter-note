@@ -24,7 +24,9 @@ class MainViewModel extends ChangeNotifier {
 
     Result<List<Note>> result = await _getAllNoteUseCase.execute();
     result.when(
-      success: (data) => _state = state.copyWith(isLoading: false, noteList: data),
+      success: (data) {
+        return _state = state.copyWith(isLoading: false, noteList: data);
+      },
       error: (e) {
         _state = state.copyWith(isLoading: false, noteList: []);
       },

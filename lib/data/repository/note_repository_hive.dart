@@ -37,6 +37,6 @@ class NoteRepositoryHive implements NoteRepository {
     if (note.id == null) {
       return const Result.error('노트의 아이디가 없습니다');
     }
-    return _sourceHive.put(note.id!, note.toDto());
+    return _sourceHive.put(note.id, note.toDto());
   }
 }

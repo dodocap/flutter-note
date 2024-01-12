@@ -27,8 +27,12 @@ class _AddEditScreenState extends State<AddEditScreen> {
   late final TextEditingController _contentController = TextEditingController();
   StreamSubscription? _subscription;
 
+  bool _isCreateMode = true;
+
   @override
   void initState() {
+    _isCreateMode = widget._note == null;
+
     Future.microtask(() {
       AddEditViewModel viewModel = context.read<AddEditViewModel>();
       _subscription = viewModel.stream.listen((event) {
@@ -43,7 +47,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
         }
       });
 
-      if (widget._note != null) {
+      if (!_isCreateMode) {
         _titleController.text = widget._note!.title;
         _contentController.text = widget._note!.content;
         viewModel.setColorValue(widget._note!.color);
@@ -70,7 +74,11 @@ class _AddEditScreenState extends State<AddEditScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          viewModel.saveNote(_titleController.text, _contentController.text);
+          if (_isCreateMode) {
+            viewModel.saveNote(_titleController.text, _contentController.text);
+          } else {
+            viewModel.editNote(_titleController.text, _contentController.text, widget._note!);
+          }
         },
         child: const Icon(Icons.save),
       ),

@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: () async {
                       final bool? result = await context.push('/add_edit', extra: note);
                       if(result != null && result) {
-                        viewModel.fetchNoteList();
+                        await viewModel.fetchNoteList();
                       }
                     },
                     title: Text(note.title),
@@ -73,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () async {
           final bool? result = await context.push('/add_edit');
           if(result != null && result) {
-            viewModel.fetchNoteList();
+            await viewModel.fetchNoteList();
           }
         },
         child: const Icon(CupertinoIcons.arrow_down_doc),

@@ -44,13 +44,41 @@ class AddEditViewModel extends ChangeNotifier {
     _state = state.copyWith(isLoading: true);
     notifyListeners();
 
-    Result<int> result = await _addNoteUseCase.execute(Note(
-      id: 0,
-      title: title,
-      content: content,
-      color: _state.color,
-      timeStamp: 0,
-    ));
+    Result<int> result = await _addNoteUseCase.execute(
+        Note(
+          id: 0,
+          title: title,
+          content: content,
+          color: _state.color,
+          timeStamp: 0,
+        ),
+    );
+
+    result.when(
+      success: (data) {
+        _state = state.copyWith(isLoading: false);
+        _controller.add(const UiEvent.successSaveData());
+      },
+      error: (e) {
+        _state = state.copyWith(isLoading: false);
+        _controller.add(UiEvent.showSnackBar(e));
+      },
+    );
+    notifyListeners();
+  }
+  Future<void> editNote(String title, String content, Note note) async {
+    if (title.isEmpty || content.isEmpty) {
+      _controller.add(const UiEvent.showSnackBar('제목 또는 내용이 비어있습니다'));
+      return;
+    }
+
+    Result<void> result = await _updateNoteUseCase.execute(
+        note.copyWith(
+          title: title,
+          content: content,
+          color: state.color,
+        ),
+    );
 
     result.when(
       success: (data) {
