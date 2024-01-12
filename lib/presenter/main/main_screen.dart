@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:orm_note/domain/model/note.dart';
 import 'package:orm_note/presenter/main/main_state.dart';
 import 'package:orm_note/presenter/main/main_view_model.dart';
+import 'package:orm_note/presenter/main/order_section.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -30,42 +30,47 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         actions: [
           IconButton(onPressed: () {
-
+            viewModel.toggleOrderSection();
           }, icon: const Icon(Icons.sort_outlined))
         ],
       ),
       body: state.isLoading ? const Center(child: CircularProgressIndicator())
-      : Column(
+      : state.noteList.isEmpty ? const Center(child: Text('텅', style: TextStyle(fontSize: 100),),)
+      : ListView(
         children: [
-          Expanded(
-            child: state.noteList.isEmpty ? const Center(child: Text('텅', style: TextStyle(fontSize: 100),),)
-            : ListView.builder(
-              itemCount: state.noteList.length,
-              itemBuilder: (context, index) {
-                final Note note = state.noteList[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  color: Color(note.color),
-                  child: ListTile(
-                    onTap: () async {
-                      final bool? result = await context.push('/add_edit', extra: note);
-                      if(result != null && result) {
-                        await viewModel.fetchNoteList();
-                      }
-                    },
-                    title: Text(note.title),
-                    subtitle: Text(note.content),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      onPressed: () async {
-                        await viewModel.removeNote(note);
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
+           AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: state.showSortingView
+              ? OrderSection(
+                  noteOrder: state.noteOrder,
+                  onOrderChanged: (noteOrder) async {
+                    await viewModel.changeOrder(noteOrder);
+                  },
+                )
+              : Container(),
           ),
+          ...state.noteList.map((note) {
+            return Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              color: Color(note.color),
+              child: ListTile(
+                onTap: () async {
+                  final bool? result = await context.push('/add_edit', extra: note);
+                  if(result != null && result) {
+                    await viewModel.fetchNoteList();
+                  }
+                },
+                title: Text(note.title),
+                subtitle: Text(note.content),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: () async {
+                    await viewModel.removeNote(note);
+                  },
+                ),
+              ),
+            );
+          }),
         ],
       ),
       floatingActionButton: FloatingActionButton(
