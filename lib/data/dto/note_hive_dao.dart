@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 
-part 'note_hive_dto.g.dart';
+part 'note_hive_dao.g.dart';
 @HiveType(typeId: 0)
-class NoteHiveDto extends HiveObject {
+class NoteHiveDao extends HiveObject {
   @HiveField(0)
   String title;
 
@@ -15,7 +15,7 @@ class NoteHiveDto extends HiveObject {
   @HiveField(3)
   int timeStamp;
 
-  NoteHiveDto({
+  NoteHiveDao({
     required this.title,
     required this.content,
     required this.color,

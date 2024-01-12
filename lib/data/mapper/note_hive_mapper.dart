@@ -1,7 +1,7 @@
-import 'package:orm_note/data/dto/note_hive_dto.dart';
+import 'package:orm_note/data/dto/note_hive_dao.dart';
 import 'package:orm_note/domain/model/note.dart';
 
-extension DtoToModel on NoteHiveDto {
+extension DtoToModel on NoteHiveDao {
   Note toNote() {
     return Note(
       id: key,
@@ -14,8 +14,8 @@ extension DtoToModel on NoteHiveDto {
 }
 
 extension ModelToDto on Note {
-  NoteHiveDto toDto() {
-    return NoteHiveDto(
+  NoteHiveDao toDto() {
+    return NoteHiveDao(
       title: title,
       content: content,
       color: color,

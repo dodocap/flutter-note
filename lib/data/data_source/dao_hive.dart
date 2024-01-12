@@ -1,23 +1,23 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:orm_note/core/result.dart';
-import 'package:orm_note/data/dto/note_hive_dto.dart';
+import 'package:orm_note/data/dto/note_hive_dao.dart';
 
 class DaoHive {
-  final Box<NoteHiveDto> _box;
+  final Box<NoteHiveDao> _box;
 
-  DaoHive({required Box<NoteHiveDto> box}) : _box = box;
+  DaoHive({required Box<NoteHiveDao> box}) : _box = box;
 
-  Future<Result<List<NoteHiveDto>>> getList() async {
+  Future<Result<List<NoteHiveDao>>> getList() async {
     return Result.success(_box.values.toList());
   }
 
-  Future<Result<int>> add(NoteHiveDto dto) async {
-    int key = await _box.add(dto);
+  Future<Result<int>> add(NoteHiveDao dao) async {
+    int key = await _box.add(dao);
     return Result.success(key);
   }
 
-  Future<Result<void>> put(int key, NoteHiveDto dto) async {
-    await _box.put(key, dto);
+  Future<Result<void>> put(int key, NoteHiveDao dao) async {
+    await _box.put(key, dao);
     return const Result.success(null);
   }
 

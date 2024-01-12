@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:orm_note/data/dto/note_hive_dto.dart';
+import 'package:orm_note/data/dto/note_hive_dao.dart';
 import 'package:orm_note/di/di_setup.dart';
 import 'package:orm_note/presenter/routes.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(NoteHiveDtoAdapter());
+  Hive.registerAdapter(NoteHiveDaoAdapter());
   await diSetup();
   runApp(const MyApp());
 }
