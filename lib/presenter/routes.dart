@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:orm_note/domain/model/note.dart';
 import 'package:orm_note/presenter/add_edit/add_edit_screen.dart';
 import 'package:orm_note/presenter/add_edit/add_edit_view_model.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +22,13 @@ final routes = GoRouter(
         GoRoute(
           path: 'add_edit',
           builder: (_, state) {
-            print(state.extra);
+            Note? note;
+            if (state.extra != null) {
+              note = state.extra as Note;
+            }
             return ChangeNotifierProvider(
               create: (_) => getIt<AddEditViewModel>(),
-              child: AddEditScreen(note: null),
+              child: AddEditScreen(note: note),
             );
           },
         ),

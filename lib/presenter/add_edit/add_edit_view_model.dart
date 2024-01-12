@@ -7,6 +7,7 @@ import 'package:orm_note/domain/use_case/add_note_use_case.dart';
 import 'package:orm_note/domain/use_case/update_note_use_case.dart';
 import 'package:orm_note/presenter/add_edit/add_edit_state.dart';
 import 'package:orm_note/presenter/add_edit/add_edit_ui_event.dart';
+import 'package:orm_note/presenter/ui/colors.dart';
 
 class AddEditViewModel extends ChangeNotifier {
   final AddNoteUseCase _addNoteUseCase;
@@ -18,11 +19,21 @@ class AddEditViewModel extends ChangeNotifier {
   })  : _addNoteUseCase = addNoteUseCase,
         _updateNoteUseCase = updateNoteUseCase;
 
-  AddEditState _state = const AddEditState();
+  AddEditState _state = AddEditState(color: roseBud.value);
   AddEditState get state => _state;
 
   final StreamController<UiEvent> _controller = StreamController();
   Stream<UiEvent> get stream => _controller.stream;
+
+  void setColor(Color color) {
+    _state = state.copyWith(color: color.value);
+    notifyListeners();
+  }
+
+  void setColorValue(int value) {
+    _state = state.copyWith(color: value);
+    notifyListeners();
+  }
 
   Future<void> saveNote(String title, String content, int color) async {
     if (title.isEmpty || content.isEmpty) {

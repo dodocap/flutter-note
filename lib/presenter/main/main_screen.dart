@@ -30,12 +30,9 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () async {
-            final bool? result = await context.push(Uri(path: '/add_edit').toString());
-            if(result != null && result) {
-              viewModel.fetchNoteList();
-            }
-          }, icon: const Icon(CupertinoIcons.arrow_down_doc))
+          IconButton(onPressed: () {
+
+          }, icon: const Icon(Icons.sort_outlined))
         ],
       ),
       body: state.isLoading ? const Center(child: CircularProgressIndicator())
@@ -46,12 +43,27 @@ class _MainScreenState extends State<MainScreen> {
               itemCount: state.noteList.length,
               itemBuilder: (context, index) {
                 final Note note = state.noteList[index];
-                return Text(note.toString());
+                return ListTile(
+                  title: Text(note.title),
+                  subtitle: Text(note.content),
+                  onTap: () async {
+                    final bool? result = await context.push('/add_edit', extra: note);
+                    if(result != null && result) {
+                      viewModel.fetchNoteList();
+                    }
+                  },
+                );
               },
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        final bool? result = await context.push('/add_edit');
+        if(result != null && result) {
+          viewModel.fetchNoteList();
+        }
+      }, child: const Icon(CupertinoIcons.arrow_down_doc)),
     );
   }
 }
