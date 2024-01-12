@@ -39,19 +39,30 @@ class _MainScreenState extends State<MainScreen> {
       : Column(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: state.noteList.isEmpty ? const Center(child: Text('텅', style: TextStyle(fontSize: 100),),)
+            : ListView.builder(
               itemCount: state.noteList.length,
               itemBuilder: (context, index) {
                 final Note note = state.noteList[index];
-                return ListTile(
-                  title: Text(note.title),
-                  subtitle: Text(note.content),
-                  onTap: () async {
-                    final bool? result = await context.push('/add_edit', extra: note);
-                    if(result != null && result) {
-                      viewModel.fetchNoteList();
-                    }
-                  },
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  color: Color(note.color),
+                  child: ListTile(
+                    onTap: () async {
+                      final bool? result = await context.push('/add_edit', extra: note);
+                      if(result != null && result) {
+                        viewModel.fetchNoteList();
+                      }
+                    },
+                    title: Text(note.title),
+                    subtitle: Text(note.content),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () async {
+                        await viewModel.removeNote(note);
+                      },
+                    ),
+                  ),
                 );
               },
             ),
