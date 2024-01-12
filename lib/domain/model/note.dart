@@ -6,12 +6,13 @@ part 'note.g.dart';
 
 @freezed
 class Note with _$Note {
+
   const factory Note({
-    required int id,
+    @Default(-1) int id,
     required String title,
     required String content,
     required int color,
-    required int timeStamp,
+    @Default(0) int timeStamp,
   }) = _Note;
 
   factory Note.fromJson(Map<String, Object?> json) => _$NoteFromJson(json);

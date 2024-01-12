@@ -19,7 +19,7 @@ extension ModelToDto on Note {
       title: title,
       content: content,
       color: color,
-      timeStamp: timeStamp,
+      timeStamp: DateTime.now().microsecondsSinceEpoch,
     );
   }
 }

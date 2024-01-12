@@ -7,7 +7,8 @@ class RemoveNoteUseCase {
 
   RemoveNoteUseCase({required NoteRepository noteRepository}) : _noteRepository = noteRepository;
 
-  Future<Result<void>> execute(Note note) async {
-    return _noteRepository.removeNote(note);
+  Future<Result<List<Note>>> execute(Note note) async {
+    await _noteRepository.removeNote(note);
+    return _noteRepository.getNoteList();
   }
 }
