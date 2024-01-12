@@ -35,7 +35,7 @@ class AddEditViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveNote(String title, String content, int color) async {
+  Future<void> saveNote(String title, String content) async {
     if (title.isEmpty || content.isEmpty) {
       _controller.add(const UiEvent.showSnackBar('제목 또는 내용이 비어있습니다'));
       return;
@@ -48,7 +48,7 @@ class AddEditViewModel extends ChangeNotifier {
       id: 0,
       title: title,
       content: content,
-      color: color,
+      color: _state.color,
       timeStamp: 0,
     ));
 

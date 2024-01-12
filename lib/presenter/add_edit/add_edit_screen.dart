@@ -70,7 +70,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          viewModel.saveNote(_titleController.text, _contentController.text);
         },
         child: const Icon(Icons.save),
       ),

@@ -69,12 +69,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        final bool? result = await context.push('/add_edit');
-        if(result != null && result) {
-          viewModel.fetchNoteList();
-        }
-      }, child: const Icon(CupertinoIcons.arrow_down_doc)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final bool? result = await context.push('/add_edit');
+          if(result != null && result) {
+            viewModel.fetchNoteList();
+          }
+        },
+        child: const Icon(CupertinoIcons.arrow_down_doc),
+      ),
     );
   }
 }
