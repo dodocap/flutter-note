@@ -46,11 +46,9 @@ class AddEditViewModel extends ChangeNotifier {
 
     Result<int> result = await _addNoteUseCase.execute(
         Note(
-          id: 0,
           title: title,
           content: content,
           color: _state.color,
-          timeStamp: 0,
         ),
     );
 

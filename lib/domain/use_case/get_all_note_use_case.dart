@@ -26,10 +26,10 @@ class GetAllNoteUseCase {
           date: (orderType) {
             orderType.when(
               ascending: () {
-                data.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+                data.sort((a, b) => (a.timeStamp ?? 0).compareTo(b.timeStamp ?? 0));
               },
               descending: () {
-                data.sort((a, b) => -a.timeStamp.compareTo(b.timeStamp));
+                data.sort((a, b) => -(a.timeStamp ?? 0).compareTo(b.timeStamp ?? 0));
               },
             );
           },
